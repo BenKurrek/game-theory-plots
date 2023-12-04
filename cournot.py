@@ -44,6 +44,10 @@ ax3d_1.set_ylabel('Q2')
 ax3d_1.set_zlabel('Payoff')
 ax3d_1.set_title('Payoff and Best Response Player 1')
 
+# Add isoprofit curves for Player 1
+contour_levels_1 = np.linspace(np.nanmin(payoff_values_1), np.nanmax(payoff_values_1), 10)
+ax3d_1.contour(Q1, Q2, payoff_values_1, zdir='z', offset=ax3d_1.get_zlim()[0], levels=contour_levels_1, cmap='viridis')
+
 # Plot payoff values and best response values for Player 2
 ax3d_2 = fig.add_subplot(222, projection='3d')
 surf2 = ax3d_2.plot_surface(Q1, Q2, payoff_values_2, cmap='plasma', edgecolor='k', alpha=0.5, label='Payoff Player 2')
@@ -52,6 +56,10 @@ ax3d_2.set_xlabel('Q1')
 ax3d_2.set_ylabel('Q2')
 ax3d_2.set_zlabel('Payoff')
 ax3d_2.set_title('Payoff and Best Response Player 2')
+
+# Add isoprofit curves for Player 2
+contour_levels_2 = np.linspace(np.nanmin(payoff_values_2), np.nanmax(payoff_values_2), 10)
+ax3d_2.contour(Q1, Q2, payoff_values_2, zdir='z', offset=ax3d_2.get_zlim()[0], levels=contour_levels_2, cmap='plasma')
 
 # Plot best response values for Player 1 and Player 2
 ax_scatter = fig.add_subplot(212)
@@ -64,6 +72,9 @@ ax_scatter.set_title('Best Response Values Scatter Plot')
 cbar = fig.colorbar(sc3, ax=ax_scatter, label='Payoff')
 cbar = fig.colorbar(sc4, ax=ax_scatter, label='Payoff')
 
+# Add isoprofit curves for the scatter plot
+contour_levels_scatter = np.linspace(np.nanmin(payoff_values_1), np.nanmax(payoff_values_1), 10)
+ax_scatter.contour(Q1, Q2, payoff_values_1, levels=contour_levels_scatter, colors='black', alpha=0.5)
 
 # Adjust layout
 plt.tight_layout()
