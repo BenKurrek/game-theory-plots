@@ -10,7 +10,9 @@ def plot_payoff(q1, q2, c, a):
 
 def plot_best_response(q1, q2, c, a):
     best_response = 1/2 * (a - c - q2)
-    if q1 == best_response: 
+
+    tolerance = 1e-1
+    if abs(q1 - best_response) < tolerance:
         return plot_payoff(q1, q2, c, a)
     else:
         return np.nan
