@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Theory Plots</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Welcome to Game Theory Plots</h1>
+
+    <button onclick="fetchBertrandPlot()">Fetch Bertrand Plot</button>
+    <button onclick="fetchCournotPlot()">Fetch Cournot Plot</button>
+    <button onclick="fetchBRFPlot()">Fetch BRF Plot</button>
+
+    <div id="bertrand-plot"></div>
+    <div id="cournot-plot"></div>
+    <div id="brf-plot"></div>
+
+    <script>
+        function fetchBertrandPlot() {
+            fetch('/bertrand/2.0/1.0')
+                .then(response => response.json())
+                .then(data => {
+                    const plotDiv = document.getElementById('bertrand-plot');
+                    Plotly.newPlot(plotDiv, data.figure);
+                })
+                .catch(error => console.error('Error fetching Bertrand plot:', error));
+        }
+
+        function fetchCournotPlot() {
+            fetch('/cournot/2.0/1.0')
+                .then(response => response.json())
+                .then(data => {
+                    const plotDiv = document.getElementById('cournot-plot');
+                    Plotly.newPlot(plotDiv, data.figure);
+                })
+                .catch(error => console.error('Error fetching Cournot plot:', error));
+        }
+
+        function fetchBRFPlot() {
+            fetch('/relationship_brf/1.0')
+                .then(response => response.json())
+                .then(data => {
+                    const plotDiv = document.getElementById('brf-plot');
+                    Plotly.newPlot(plotDiv, data.figure);
+                })
+                .catch(error => console.error('Error fetching BRF plot:', error));
+        }
+    </script>
+</body>
+</html>

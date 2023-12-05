@@ -1,0 +1,20 @@
+<!-- Replace the existing content in plotly_template.html with the following -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <title>Plot</title>
+</head>
+<body>
+    <div id="plot-container1"></div>
+    <script>
+        console.log("PLOTLY TEMPLATE");
+        var figure1 = {{ fig_json1 | tojson }};
+        console.log(`FIGURE 1 IN HTML: ${figure1}`);
+
+        Plotly.newPlot('plot-container1', figure1);
+    </script>
+</body>
+</html>

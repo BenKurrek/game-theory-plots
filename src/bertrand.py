@@ -1,6 +1,5 @@
 import numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
+import plotly.graph_objects as go
 
 def plot_payoff(p1, p2, c, a):
     if p1 > p2:
@@ -22,12 +21,10 @@ def plot_best_response(p1, p2, c, a):
     if c < p2 and p2 <= p_m:
         return np.nan
     if p_m < p2:
-        plot_payoff(p_m, p2, c, a)
+        return plot_payoff(p_m, p2, c, a)
     
     return np.nan
     
-
-
 def bertrand_game(a, c):   
     if a <= c:
         print('a must be greater than c')
@@ -46,41 +43,22 @@ def bertrand_game(a, c):
     payoff_values_2 = np.vectorize(plot_payoff)(P2, P1, c, a)
     best_response_values_2 = np.vectorize(plot_best_response)(P2, P1, c, a)
 
-    # Create a 3D plot
-    fig = plt.figure(figsize=(12, 10))
+    # Create a 3D plot using Plotly
+    fig = go.Figure()
 
     # Plot payoff values and best response values for Player 1
-    ax3d_1 = fig.add_subplot(221, projection='3d')
-    surf1 = ax3d_1.plot_surface(P1, P2, payoff_values_1, cmap='viridis', edgecolor='k', alpha=0.5, label='Payoff Player 1')
-    sc1 = ax3d_1.scatter(P1, P2, best_response_values_1, color='red', s=50, label='Best Response Player 1', depthshade=False)
-    ax3d_1.set_xlabel('P1')
-    ax3d_1.set_ylabel('P2')
-    ax3d_1.set_zlabel('Payoff')
-    ax3d_1.set_title('Payoff and Best Response Player 1')
+    fig.add_trace(go.Surface(x=P1, y=P2, z=payoff_values_1, colorscale='viridis', opacity=0.5, name='Payoff Player 1'))
+    fig.add_trace(go.Scatter3d(x=P1.flatten(), y=P2.flatten(), z=best_response_values_1.flatten(), 
+                               mode='markers', marker=dict(size=5, color='red'), name='Best Response Player 1'))
 
     # Plot payoff values and best response values for Player 2
-    ax3d_2 = fig.add_subplot(222, projection='3d')
-    surf2 = ax3d_2.plot_surface(P1, P2, payoff_values_2, cmap='plasma', edgecolor='k', alpha=0.5, label='Payoff Player 2')
-    sc2 = ax3d_2.scatter(P1, P2, best_response_values_2, color='blue', s=50, label='Best Response Player 2', depthshade=False)
-    ax3d_2.set_xlabel('P1')
-    ax3d_2.set_ylabel('P2')
-    ax3d_2.set_zlabel('Payoff')
-    ax3d_2.set_title('Payoff and Best Response Player 2')
+    fig.add_trace(go.Surface(x=P1, y=P2, z=payoff_values_2, colorscale='plasma', opacity=0.5, name='Payoff Player 2'))
+    fig.add_trace(go.Scatter3d(x=P1.flatten(), y=P2.flatten(), z=best_response_values_2.flatten(), 
+                               mode='markers', marker=dict(size=5, color='blue'), name='Best Response Player 2'))
 
-    # Plot best response values for Player 1 and Player 2
-    ax_scatter = fig.add_subplot(212)
-    sc3 = ax_scatter.scatter(P1.flatten(), P2.flatten(), c=best_response_values_1.flatten(), s=50, cmap='Reds', label='Best Response Player 1')
-    sc4 = ax_scatter.scatter(P1.flatten(), P2.flatten(), c=best_response_values_2.flatten(), s=50, cmap='Blues', label='Best Response Player 2')
-    ax_scatter.set_xlabel('P1')
-    ax_scatter.set_ylabel('P2')
-    ax_scatter.set_title('Best Response Values Scatter Plot')
-    # Add a colorbar for the scatter plot
-    cbar = fig.colorbar(sc3, ax=ax_scatter, label='Payoff')
-    cbar = fig.colorbar(sc4, ax=ax_scatter, label='Payoff')
+    # Set layout
+    fig.update_layout(scene=dict(xaxis_title='P1', yaxis_title='P2', zaxis_title='Payoff'),
+                      title='Payoff and Best Response Bertrand Model')
 
-
-    # Adjust layout
-    plt.tight_layout()
-
-    # Show the plot
-    plt.show()
+    print(f"Figure inside bertrand: {fig}")
+    return fig
