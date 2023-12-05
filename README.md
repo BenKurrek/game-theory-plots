@@ -59,7 +59,7 @@ pip install -r requirements.txt
 The primary entry point is the main.py file. You can specify the game type and additional parameters using command-line arguments.
 
 ```bash
-python3 main.py <game> [--a <value>] [--c <value>]
+python3 main.py <game> [--a <value>] [--c <value>] [--animate <true/false>]
 ```
 
 Replace <game> with the desired game type (bertrand, cournot, brf). Optionally, you can set parameters a and c for the specific game.
@@ -71,10 +71,10 @@ Here are some examples of how to use the visualization scripts:
 
 ```bash
 # Bertrand model with a=5 and c=4
-python3 main.py bertrand --a 5 --c 4
+python3 main.py bertrand --a 5 --c 4 --animate true
 
 # Cournot game with a=50 and c=1
-python3 main.py cournot --a 50 --c 1
+python3 main.py cournot --a 50 --c 1 --animate true
 
 # Best Response Functions with c=100
 python3 main.py brf --c 100
