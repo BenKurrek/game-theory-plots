@@ -19,7 +19,8 @@ def plot_best_response(q1, q2, c, a):
         return np.nan
 
 # Function to update the plots for each frame
-def update(frame, initial_a, initial_c, Q1, Q2):
+def update(frame, initial_a, initial_c, Q1, Q2, ax3d_1, ax3d_2, ax_scatter, surf1, surf2, sc1, sc2, sc3, sc4):
+
     a = initial_a # Constant a term
     c = initial_c + frame * 1 # Varying 'c' term
     if c >= a:
@@ -145,8 +146,9 @@ def cournot_game(a, c):
 
     # Animate the plots
     num_frames = a - c
+    print(f"Number of frames: {num_frames}")
     if animate:
-        animation = FuncAnimation(fig, update, frames=num_frames, interval=50, repeat=True, fargs=(a, c, Q1, Q2))
+        animation = FuncAnimation(fig, update, frames=int(num_frames), interval=50, repeat=True, fargs=(a, c, Q1, Q2, ax3d_1, ax3d_2, ax_scatter, surf1, surf2, sc1, sc2, sc3, sc4))
 
     # Show the plot
     plt.show()
