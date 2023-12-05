@@ -1,5 +1,7 @@
 # Game Theory Visualization
 
+![Cournot Game](./static/cournot.png)
+
 This repository contains scripts for visualizing interesting game theory concepts using Python and matplotlib. The implemented games include the Bertrand model, Cournot game, and Best Response Functions.
 
 ## Table of Contents
