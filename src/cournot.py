@@ -2,12 +2,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.animation import FuncAnimation
+from matplotlib.colors import LinearSegmentedColormap
 
 def plot_payoff(q1, q2, c, a):
     p = 0
     if (q1 + q2) <= a:
         p = q1 * (a - c - q1 - q2)
-    return p
+    return p if p >= 0 else 0
 
 def plot_best_response(q1, q2, c, a):
     best_response = 1/2 * (a - c - q2)
@@ -36,6 +37,7 @@ def update(frame, initial_a, initial_c, Q1, Q2, dot_size, ax3d_1, ax3d_2, ax_sca
     ax3d_1.plot_surface(Q1, Q2, payoff_values_1, cmap='viridis', edgecolor='k', alpha=0.7, label='Payoff Player 1')
     ax3d_1.scatter(Q1, Q2, best_response_values_1, color='red', s=dot_size, label='Best Response Player 1', depthshade=False)
     ax3d_1.contour(Q1, Q2, payoff_values_1, zdir='z', offset=ax3d_1.get_zlim()[0], levels=contour_levels_1, cmap='viridis', alpha=0.5)
+    ax3d_1.set_zlim(0, np.nanmax(payoff_values_1))  # Set z-axis limit for Player 1
     ax3d_1.set_xlabel('Q1')
     ax3d_1.set_ylabel('Q2')
     ax3d_1.set_zlabel('Payoff')
@@ -50,9 +52,10 @@ def update(frame, initial_a, initial_c, Q1, Q2, dot_size, ax3d_1, ax3d_2, ax_sca
     
     contour_levels_2 = np.linspace(np.nanmin(payoff_values_2), np.nanmax(payoff_values_2), 10)
     ax3d_2.clear()
-    ax3d_2.plot_surface(Q1, Q2, payoff_values_2, cmap='plasma', edgecolor='k', alpha=0.7, label='Payoff Player 2')
+    ax3d_2.plot_surface(Q1, Q2, payoff_values_2, cmap='viridis', edgecolor='k', alpha=0.7, label='Payoff Player 2')
     ax3d_2.scatter(Q1, Q2, best_response_values_2, color='blue', s=dot_size, label='Best Response Player 2', depthshade=False)
-    ax3d_2.contour(Q1, Q2, payoff_values_2, zdir='z', offset=ax3d_2.get_zlim()[0], levels=contour_levels_2, cmap='plasma', alpha=0.5)
+    ax3d_2.contour(Q1, Q2, payoff_values_2, zdir='z', offset=ax3d_2.get_zlim()[0], levels=contour_levels_2, cmap='viridis', alpha=0.5)
+    ax3d_2.set_zlim(0, np.nanmax(payoff_values_2))  # Set z-axis limit for Player 2
     ax3d_2.set_xlabel('Q1')
     ax3d_2.set_ylabel('Q2')
     ax3d_2.set_zlabel('Payoff')
@@ -63,8 +66,8 @@ def update(frame, initial_a, initial_c, Q1, Q2, dot_size, ax3d_1, ax3d_2, ax_sca
     
     contour_levels_scatter = np.linspace(np.nanmin(payoff_values_1), np.nanmax(payoff_values_1), 10)
     ax_scatter.clear()
-    ax_scatter.scatter(Q1.flatten(), Q2.flatten(), c=best_response_values_1.flatten(), s=dot_size, cmap='Reds', label='Best Response Player 1', alpha=0.7)
-    ax_scatter.scatter(Q1.flatten(), Q2.flatten(), c=best_response_values_2.flatten(), s=dot_size, cmap='Blues', label='Best Response Player 2', alpha=0.7)
+    ax_scatter.scatter(Q1.flatten(), Q2.flatten(), c=best_response_values_1.flatten(), s=dot_size, cmap='viridis', label='Best Response Player 1', alpha=0.7)
+    ax_scatter.scatter(Q1.flatten(), Q2.flatten(), c=best_response_values_2.flatten(), s=dot_size, cmap='viridis', label='Best Response Player 2', alpha=0.7)
     ax_scatter.set_xlabel('Q1')
     ax_scatter.set_ylabel('Q2')
     
@@ -99,6 +102,7 @@ def cournot_game(a, c, animate):
     ax3d_1 = fig.add_subplot(221, projection='3d')
     surf1 = ax3d_1.plot_surface(Q1, Q2, payoff_values_1, cmap='viridis', edgecolor='k', alpha=0.7, label='Payoff Player 1')
     sc1 = ax3d_1.scatter(Q1, Q2, best_response_values_1, color='red', s=dot_size, label='Best Response Player 1', depthshade=False)
+    ax3d_1.set_zlim(0, np.nanmax(payoff_values_1))  # Set z-axis limit for Player 1
     ax3d_1.set_xlabel('Q1')
     ax3d_1.set_ylabel('Q2')
     ax3d_1.set_zlabel('Payoff')
@@ -110,8 +114,9 @@ def cournot_game(a, c, animate):
 
     # Plot payoff values and best response values for Player 2
     ax3d_2 = fig.add_subplot(222, projection='3d')
-    surf2 = ax3d_2.plot_surface(Q1, Q2, payoff_values_2, cmap='plasma', edgecolor='k', alpha=0.7, label='Payoff Player 2')
+    surf2 = ax3d_2.plot_surface(Q1, Q2, payoff_values_2, cmap='viridis', edgecolor='k', alpha=0.7, label='Payoff Player 2')
     sc2 = ax3d_2.scatter(Q1, Q2, best_response_values_2, color='blue', s=dot_size, label='Best Response Player 2', depthshade=False)
+    ax3d_2.set_zlim(0, np.nanmax(payoff_values_2))  # Set z-axis limit for Player 2
     ax3d_2.set_xlabel('Q1')
     ax3d_2.set_ylabel('Q2')
     ax3d_2.set_zlabel('Payoff')
@@ -119,12 +124,12 @@ def cournot_game(a, c, animate):
 
     # Add isoprofit curves for Player 2
     contour_levels_2 = np.linspace(np.nanmin(payoff_values_2), np.nanmax(payoff_values_2), 10)
-    ax3d_2.contour(Q1, Q2, payoff_values_2, zdir='z', offset=ax3d_2.get_zlim()[0], levels=contour_levels_2, cmap='plasma', alpha=0.5)
+    ax3d_2.contour(Q1, Q2, payoff_values_2, zdir='z', offset=ax3d_2.get_zlim()[0], levels=contour_levels_2, cmap='viridis', alpha=0.5)
 
     # Plot best response values for Player 1 and Player 2
     ax_scatter = fig.add_subplot(212)
-    sc3 = ax_scatter.scatter(Q1.flatten(), Q2.flatten(), c=best_response_values_1.flatten(), s=dot_size, cmap='Reds', label='Best Response Player 1', alpha=0.7)
-    sc4 = ax_scatter.scatter(Q1.flatten(), Q2.flatten(), c=best_response_values_2.flatten(), s=dot_size, cmap='Blues', label='Best Response Player 2', alpha=0.7)
+    sc3 = ax_scatter.scatter(Q1.flatten(), Q2.flatten(), c=best_response_values_1.flatten(), s=dot_size, cmap='viridis', label='Best Response Player 1', alpha=0.7)
+    sc4 = ax_scatter.scatter(Q1.flatten(), Q2.flatten(), c=best_response_values_2.flatten(), s=dot_size, cmap='viridis', label='Best Response Player 2', alpha=0.7)
     ax_scatter.set_xlabel('Q1')
     ax_scatter.set_ylabel('Q2')
     ax_scatter.set_title('Best Response Values Scatter Plot')
