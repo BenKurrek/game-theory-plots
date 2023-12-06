@@ -27,8 +27,7 @@ def update(frame, initial_a, initial_c, Q1, Q2, dot_size, ax3d_1, ax3d_2, ax_sca
     # Update Player 1 plots
     payoff_values_1 = np.vectorize(plot_payoff)(Q1, Q2, c, a)
     best_response_values_1 = np.vectorize(plot_best_response)(Q1, Q2, c, a)
-    
-    print(f"best_response_values_1: {best_response_values_1}")
+
     surf1.set_array(payoff_values_1.flatten())
     sc1.set_array(best_response_values_1.flatten())
     
@@ -78,7 +77,7 @@ def update(frame, initial_a, initial_c, Q1, Q2, dot_size, ax3d_1, ax3d_2, ax_sca
     ax_scatter.set_title(f'Best Response Values Scatter Plot (a={a}, c={c})')
 
 def cournot_game(a, c, animate):
-    animate = animate == 'True' or animate == 'true' or animate == '1' or animate == 't' or animate == 'T'
+    animate = animate.lower() in {'true', '1', 't'}
     
     # Generate points for the payoff surface
     dot_size = 10

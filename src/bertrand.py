@@ -79,7 +79,7 @@ def update(frame, initial_a, initial_c, dot_size, p_1_points, p_2_points, P1, P2
     ax_scatter.set_title(f'Best Response Values Scatter Plot (a={a}, c={c})')
 
 def bertrand_game(a, c, animate):
-    animate = animate == 'True' or animate == 'true' or animate == '1' or animate == 't' or animate == 'T'
+    animate = animate.lower() in {'true', '1', 't'}
 
     if a <= c:
         print('a must be greater than c')
