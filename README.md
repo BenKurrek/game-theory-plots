@@ -71,7 +71,7 @@ Here are some examples of how to use the visualization scripts:
 
 ```bash
 # Bertrand model with a=5 and c=4
-python3 main.py bertrand --a 5 --c 4 --animate true
+python3 main.py bertrand --a 50 --c 4 --animate true
 
 # Cournot game with a=50 and c=1
 python3 main.py cournot --a 50 --c 1 --animate true
