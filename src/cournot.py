@@ -138,7 +138,7 @@ def cournot_game(a, c, animate):
     cbar = fig.colorbar(sc4, ax=ax_scatter, label='Payoff')
 
     # Add isoprofit curves for the scatter plot
-    contour_levels_scatter = np.linspace(np.nanmin(payoff_values_1), np.nanmax(payoff_values_1), 10)
+    contour_levels_scatter = np.linspace(np.nanmin(payoff_values_1), np.nanmax(payoff_values_1), 50)
     ax_scatter.contour(Q1, Q2, payoff_values_1, levels=contour_levels_scatter, colors='black', alpha=0.5)
 
     # Adjust layout
